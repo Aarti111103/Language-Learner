@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Language Learner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(120deg,rgb(1, 1, 15),rgb(1, 5, 22),rgb(3, 9, 34));
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px 15px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.75);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    textarea {
+      height: 160px;
+      border-radius: 10px;
+      resize: none;
+    }
+
+    .btn-custom {
+      background-color: #007bff;
+      color: white;
+      font-weight: 500;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .btn-custom:hover {
+      background-color: #0056b3;
+    }
+
+    .result-box {
+      background-color: #111;
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 30px;
+    }
+
+    .result-box h5 {
+      color: #0dcaf0;
+    }
+
+    .result-box p, li {
+      color: #ddd;
+    }
+
+    .icon-text {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .error-text { color: #ff4d4d; }
+    .suggest-text { color: #28a745; }
+    .why-text { color: #ffc107; }
+
+    .form-label {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1><i class="bi bi-spellcheck"></i> Grammar And Spell Checker</h1>
+
+    <!-- Text Input -->
+    <form action="/spell" method="post">
+      <label for="text" class="form-label">Type your text here</label>
+      <textarea class="form-control" id="text" name="text" placeholder=" "></textarea>
+      <button type="submit" class="btn btn-custom w-100"><i class="bi bi-pencil-square"></i> Correct</button>
+    </form>
+
+    <!-- Voice Input -->
+    <form action="/speak" method="get">
+      <button type="submit" class="btn btn-custom w-100"><i class="bi bi-mic-fill"></i> Speak Now</button>
+    </form>
+    {% if voice_input %}
+      <div class="result-box mt-3">
+        <h5><i class="bi bi-volume-up"></i> Voice Input:</h5>
+        <p>{{ voice_input }}</p>
+      </div>
+    {% endif %}
+
+    <!-- File Upload -->
+    <form action="/grammar" method="post" enctype="multipart/form-data">
+      <label class="form-label">Upload File</label>
+      <input type="file" name="file" class="form-control">
+      <button type="submit" class="btn btn-custom w-100"><i class="bi bi-file-earmark-text"></i> Check File</button>
+    </form>
+
+    <!-- Output: Corrected Text from typing or voice -->
+    {% if corrected_text %}
+      <div class="result-box">
+        <h5><i class="bi bi-check2-circle"></i> Corrected Text:</h5>
+        <p>{{ corrected_text }}</p>
+
+        {% if grammar_issues %}
+          <h5 class="mt-4"><i class="bi bi-tools"></i> Grammar Mistakes:</h5>
+          <ul>
+            {% for issue in grammar_issues %}
+              <li>
+                <span class="error-text"><i class="bi bi-x-circle"></i> Error: "{{ issue.error_text }}"</span><br>
+                <span class="why-text"><i class="bi bi-question-circle"></i> Why: {{ issue.message }}</span><br>
+                <span class="suggest-text"><i class="bi bi-lightbulb-fill"></i> Suggestion:
+                  {% if issue.suggestions %}
+                    {{ issue.suggestions[0] }}
+                  {% else %}
+                    No suggestion available
+                  {% endif %}
+                </span>
+              </li>
+              <br>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Output: Corrected File Text -->
+    {% if corrected_file_text %}
+      <div class="result-box">
+        <h5><i class="bi bi-check2-square"></i> Corrected File Text:</h5>
+        <p>{{ corrected_file_text }}</p>
+
+        {% if corrected_file_grammar %}
+          <h5 class="mt-4"><i class="bi bi-list-check"></i> File Grammar Issues:</h5>
+          <ul>
+            {% for issue in corrected_file_grammar %}
+              <li>
+                <span class="error-text">❌ "{{ issue.error_text }}"</span> — {{ issue.message }}<br>
+                ✅ <span class="suggest-text">{{ issue.suggestions[0] if issue.suggestions else "None" }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- ✅ Download button in both cases -->
+    {% if corrected_text or corrected_file_text %}
+      <form action="/download" method="post">
+        <button type="submit" class="btn btn-success mt-2">
+          ⬇️ Download Corrected Text
+        </button>
+      </form>
+      <a href="/library" class="btn btn-secondary mt-3">📂 View My Library</a>
+    {% endif %}
+
+    <a href="/dashboard" class="btn btn-secondary mt-4">⬅ Back to Dashboard</a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
