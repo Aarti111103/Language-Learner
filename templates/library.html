@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <title>Language Learner</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background: #1b1b1b;
+      color: white;
+      padding: 40px;
+    }
+    .container {
+      background: #2d2d2d;
+      border-radius: 10px;
+      padding: 30px;
+    }
+    a.btn {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="mb-4">📚 Your Downloaded Files</h2>
+
+    {% if files %}
+      <ul class="list-group">
+        {% for file in files %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ file }}
+            <span>
+              <a href="/downloads/{{ file }}" class="btn btn-sm btn-primary" download>⬇️ Download</a>
+              <a href="/delete/{{ file }}" class="btn btn-sm btn-danger">🗑 Delete</a>
+            </span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No downloaded files yet.</p>
+    {% endif %}
+
+    <a href="/dashboard" class="btn btn-secondary mt-4">⬅ Back to Dashboard</a>
+  </div>
+</body>
+</html>

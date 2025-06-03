@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Language Learner</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      height: 100vh;
+      background-color: #121212;
+      color: #ffffff;
+      flex-direction: column;
+    }
+    
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background-color: #0d47a1;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-sizing: border-box;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: #ffcc00;
+    }
+    .content {
+      margin-top: 60px;
+      margin-left: 120px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2 columns */
+      gap: 30px;
+      width: calc(100% - 220px); /* Full width minus sidebar */
+      height: calc(100vh - 60px); /* Full height minus topbar */
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    .card {
+      background-color: #2c3e50;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+      color: #ffffff;
+      cursor: pointer;
+      height: 300px; /* Increased card height */
+    }
+    .card:hover {
+      background-color: #1abc9c;
+      transform: scale(1.03);
+    }
+
+    .card h5 {
+      margin-bottom: 10px;
+      font-size: 1.5rem; /* Slightly larger text */
+    }
+    .card p {
+      font-size: 1rem;
+      color: #ccc;
+    }
+    .card i {
+      font-size: 50px; /* Larger icons */
+      margin-bottom: 15px;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="topbar">
+    <div class="logo">
+      <i class="fa-solid fa-book fa-bounce"></i>
+      <span style="font-size: 1.5em; font-weight: bold;">Language Learner</span>
+    </div>
+    <div class="nav-links">
+      <a href="/dashboard">Home</a>
+      <a href="/library">Library</a>
+      <a href="/Profile">About</a>
+      <a href="/signout">Sign Out</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="card" onclick="location.href='/'">
+      <i class="fa-solid fa-pencil"></i>
+      <h5>Spelling & Grammar Checker</h5>
+      <p>Check your text for spelling and grammar errors.</p>
+    </div>
+    <div class="card" onclick="location.href='/translate'">
+      <i class="fa-solid fa-globe"></i>
+      <h5>Text Translator</h5>
+      <p>Translate your text into different languages.</p>
+    </div>
+    <div class="card" onclick="location.href='/synoanto'">
+      <i class="fa-solid fa-search"></i>
+      <h5>Synonyms & Antonyms</h5>
+      <p>Find synonyms and antonyms for your words.</p>
+    </div>
+    <div class="card" onclick="location.href='/dictionary'">
+      <i class="fa-solid fa-book-open"></i>
+      <h5>Dictionary Model</h5>
+      <p>Look up definitions and synonyms.</p>
+    </div>
+  </div>
+</body>
+</html>
